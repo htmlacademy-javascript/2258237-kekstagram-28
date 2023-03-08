@@ -52,3 +52,7 @@ const addSymbols = (string, minLength, extraSymbols) => {
     return newString;
   }
 };
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getNumbers, isEscapeKey};
