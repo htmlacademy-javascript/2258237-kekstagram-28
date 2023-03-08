@@ -1,3 +1,6 @@
+import {createPhotos} from './data.js';
 import {drawUsersPhotos} from './photoGallery.js';
 
-drawUsersPhotos();
+const usersPhotosData = createPhotos();
+
+drawUsersPhotos(usersPhotosData);
