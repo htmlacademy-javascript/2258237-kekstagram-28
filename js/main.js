@@ -14,16 +14,6 @@ const usersPhotosData = createPhotos();
 drawUsersPhotos(usersPhotosData);
 
 
-const findCLickedPhotoId = (clickedPictureTarget, photosDataArray) => {
-  const photoNumberName = getNumbers(clickedPictureTarget.src.slice(-10));
-  for (let i = 0; i < photosDataArray.length; i++) {
-    const currentPhotoNumberUrl = getNumbers(photosDataArray[i].url);
-    if (photoNumberName === currentPhotoNumberUrl) {
-      return photosDataArray[i].id;
-    }
-  }
-};
-
 const findCLickedPhotoObject = (clickedPhotoId, photosDataArray) => {
   for (let i = 0; i < photosDataArray.length; i++) {
     if (photosDataArray[i].id === clickedPhotoId) {
@@ -34,7 +24,7 @@ const findCLickedPhotoObject = (clickedPhotoId, photosDataArray) => {
 
 const openModalBigPicture = (evt) => {
   if (evt.target.matches('.picture__img')) {
-    const clickedPictureId = findCLickedPhotoId(evt.target, usersPhotosData);
+    const clickedPictureId = Number(evt.target.getAttribute('data-id'));
     const clickedPictureData = findCLickedPhotoObject(clickedPictureId, usersPhotosData);
     drawBigPhotoData(clickedPictureData);
 
