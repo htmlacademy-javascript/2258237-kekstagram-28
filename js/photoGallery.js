@@ -11,6 +11,8 @@ const drawUsersPhotos = (photosData) => {
     photoElement.querySelector('.picture__likes').textContent = photoCard.likes;
     photoElement.querySelector('.picture__comments').textContent = photoCard.comments.length;
 
+    photoElement.querySelector('.picture__img').setAttribute('data-id', photoCard.id);
+
     similarListFragment.append(photoElement);
   });
 
