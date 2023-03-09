@@ -1,6 +1,5 @@
 import {createPhotos} from './data.js';
 import {drawUsersPhotos} from './photoGallery.js';
-import {getNumbers} from './functions.js';
 import {isEscapeKey} from './functions.js';
 import {drawBigPhotoData} from './big-photo-modal.js';
 
@@ -14,36 +13,37 @@ const usersPhotosData = createPhotos();
 drawUsersPhotos(usersPhotosData);
 
 
-const findCLickedPhotoObject = (clickedPhotoId, photosDataArray) => {
-  for (let i = 0; i < photosDataArray.length; i++) {
-    if (photosDataArray[i].id === clickedPhotoId) {
-      return photosDataArray[i];
-    }
+const findClickedPhotoObject = (clickedPhotoId, photosDataArray) => {
+  return photosDataArray.find((currentElement) => {
+    return currentElement.id === clickedPhotoId;
+  });
+};
+
+const closeModalBigPicture = () => {
+  modalBigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onModalEscKeydown);
+};
+
+
+const onModalEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeModalBigPicture();
   }
 };
 
 const openModalBigPicture = (evt) => {
   if (evt.target.matches('.picture__img')) {
     const clickedPictureId = Number(evt.target.getAttribute('data-id'));
-    const clickedPictureData = findCLickedPhotoObject(clickedPictureId, usersPhotosData);
+    const clickedPictureData = findClickedPhotoObject(clickedPictureId, usersPhotosData);
     drawBigPhotoData(clickedPictureData);
 
     modalBigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
 
-    document.addEventListener('keydown', (evt) => {
-      if (isEscapeKey(evt)) {
-        evt.preventDefault();
-        modalBigPicture.classList.add('hidden');
-        body.classList.remove('modal-open');
-      }
-    });
+    document.addEventListener('keydown', onModalEscKeydown);
   }
-};
-
-const closeModalBigPicture = () => {
-  modalBigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
 };
 
 miniPicturesContainer.addEventListener('click', openModalBigPicture);
