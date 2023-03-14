@@ -14,7 +14,6 @@ const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
 
 
 
-const closeBigPictureButton = modalBigPicture.querySelector('.big-picture__cancel');
 
 const simpleClickCounter = () => {
   let i = 2;
@@ -23,31 +22,31 @@ const simpleClickCounter = () => {
 
 const commentsLoadButtonCounter = simpleClickCounter();
 
-const getNumberComments = (commentsArray) => {
-  let commentsCountName = 'комментариев';
+// const getNumberComments = (commentsArray) => {
+//   let commentsCountName = 'комментариев';
 
-  switch (String(commentsArray.length).at(-1)) {
-    case '1':
-      commentsCountName = 'комментарий';
-      break;
-    case '2':
-    case '3':
-    case '4':
-      commentsCountName = 'комментария';
-      break;
-    default:
-      commentsCountName = 'комментариев';
-      break;
-  }
+//   switch (String(commentsArray.length).at(-1)) {
+//     case '1':
+//       commentsCountName = 'комментарий';
+//       break;
+//     case '2':
+//     case '3':
+//     case '4':
+//       commentsCountName = 'комментария';
+//       break;
+//     default:
+//       commentsCountName = 'комментариев';
+//       break;
+//   }
 
-  if (commentsArray.length < 6) {
-    commentsCountBlock.textContent = `${commentsArray.length} ${commentsCountName}`;
-    commentsLoadBlock.classList.add('hidden');
-  } else {
-    commentsCountBlock.textContent = `5 из ${commentsArray.length} ${commentsCountName}`;
-    commentsLoadBlock.classList.remove('hidden');
-  }
-};
+//   if (commentsArray.length < 6) {
+//     commentsCountBlock.textContent = `${commentsArray.length} ${commentsCountName}`;
+//     commentsLoadBlock.classList.add('hidden');
+//   } else {
+//     commentsCountBlock.textContent = `5 из ${commentsArray.length} ${commentsCountName}`;
+//     commentsLoadBlock.classList.remove('hidden');
+//   }
+// };
 
 
 
@@ -75,20 +74,25 @@ const createComments = (commentsArray) => {
 
     similarCommentFragment.append(commentElement);
 
-    if (commentsArray.length === i + 1) {
+    if (i + 1 === commentsArray.length) {
       break;
     }
   }
 
   commentsList.append(similarCommentFragment);
 
-  getNumberComments(commentsArray);
+  // getNumberComments(commentsArray);
 };
 
+/*--------------------------------------------------------------*/
 
-const cb = () => {
-  addComments(clickedElementData.comments);
-};
+
+
+// const workButtonLoadMore = (photoData) => {
+//   return function () {
+//     console.log(photoData.comments);
+//   }
+// }
 
 
 
@@ -99,11 +103,8 @@ const drawBigPhotoData = (clickedElementData) => {
 
   createComments(clickedElementData.comments);
 
-  commentLodaerButton.addEventListener('click', cb);
 };
 
-closeBigPictureButton.addEventListener('click', () => {
-  commentLodaerButton.removeEventListener('click', cb);
-});
+// export {workButtonLoadMore};
 
 export {drawBigPhotoData};
