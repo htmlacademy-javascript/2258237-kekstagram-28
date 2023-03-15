@@ -10,13 +10,15 @@ const closeBigPictureButton = modalBigPicture.querySelector('.big-picture__cance
 
 
 
-// const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
-// import {workButtonLoadMore} from './big-photo-modal.js';
+const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
+import {workButtonLoadMore} from './big-photo-modal.js';
 
 
 const usersPhotosData = createPhotos();
 drawUsersPhotos(usersPhotosData);
 
+
+let commentsLoaderButtonClickHandler = null;
 
 const findClickedPhotoObject = (clickedPhotoId, photosDataArray) => {
   return photosDataArray.find((currentElement) => {
@@ -29,7 +31,8 @@ const closeModalBigPicture = () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEscKeydown);
 
-  // commentLodaerButton.removeEventListener('click', workButtonLoadMore(clickedPictureData));
+  commentLodaerButton.removeEventListener('click', commentsLoaderButtonClickHandler);
+  commentsLoaderButtonClickHandler = null;
 };
 
 
@@ -50,8 +53,8 @@ const openModalBigPicture = (evt) => {
     modalBigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
 
-
-    // commentLodaerButton.addEventListener('click', workButtonLoadMore(clickedPictureData));
+    commentsLoaderButtonClickHandler = workButtonLoadMore(clickedPictureData);
+    commentLodaerButton.addEventListener('click', commentsLoaderButtonClickHandler);
 
     document.addEventListener('keydown', onModalEscKeydown);
   }

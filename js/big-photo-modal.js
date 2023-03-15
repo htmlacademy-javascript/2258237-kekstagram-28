@@ -88,11 +88,11 @@ const createComments = (commentsArray) => {
 
 
 
-// const workButtonLoadMore = (photoData) => {
-//   return function () {
-//     console.log(photoData.comments);
-//   }
-// }
+const workButtonLoadMore = (photoData) => {
+  return function () {
+    console.log(photoData.comments);
+  }
+}
 
 
 
@@ -105,6 +105,6 @@ const drawBigPhotoData = (clickedElementData) => {
 
 };
 
-// export {workButtonLoadMore};
+export {workButtonLoadMore};
 
 export {drawBigPhotoData};
