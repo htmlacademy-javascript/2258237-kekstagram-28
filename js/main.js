@@ -9,7 +9,6 @@ const miniPicturesContainer = document.querySelector('.pictures');
 const closeBigPictureButton = modalBigPicture.querySelector('.big-picture__cancel');
 
 
-
 const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
 import {workButtonLoadMore} from './big-photo-modal.js';
 
@@ -18,7 +17,7 @@ const usersPhotosData = createPhotos();
 drawUsersPhotos(usersPhotosData);
 
 
-let commentsLoaderButtonClickHandler = null;
+let commentsLoaderButtonClickHandler = null; //Для объявления функции доп комментов
 
 const findClickedPhotoObject = (clickedPhotoId, photosDataArray) => {
   return photosDataArray.find((currentElement) => {
@@ -53,13 +52,12 @@ const openModalBigPicture = (evt) => {
     modalBigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
 
-    commentsLoaderButtonClickHandler = workButtonLoadMore(clickedPictureData);
+    commentsLoaderButtonClickHandler = workButtonLoadMore(clickedPictureData.comments);
     commentLodaerButton.addEventListener('click', commentsLoaderButtonClickHandler);
 
     document.addEventListener('keydown', onModalEscKeydown);
   }
 };
-
 
 
 miniPicturesContainer.addEventListener('click', openModalBigPicture);
