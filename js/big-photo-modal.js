@@ -5,22 +5,12 @@ const likesBigPhoto = modalBigPicture.querySelector('.likes-count');
 const descriptionBigPhoto = modalBigPicture.querySelector('.social__caption');
 
 const commentsCountBlock = modalBigPicture.querySelector('.social__comment-count');
-const commentsTotalCount = commentsCountBlock.querySelector('.comments-count');
-const commentsLoadBlock = modalBigPicture.querySelector('.comments-loader');
 
 const commentsList = modalBigPicture.querySelector('.social__comments');
 
 const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
 
 
-
-
-const simpleClickCounter = () => {
-  let i = 2;
-  return () => i++;
-};
-
-const commentsLoadButtonCounter = simpleClickCounter();
 
 // const getNumberComments = (commentsArray) => {
 //   let commentsCountName = 'комментариев';
@@ -60,24 +50,14 @@ const returnCommentTemplate = () => {
   const commentsPerviousList = commentsList.querySelectorAll('.social__comment');
   return commentsPerviousList[0];
 };
-
 const baseCommentTemplate = returnCommentTemplate(); //Базовый шаблон для коммента
 
 
-/*--------------------------------------------------------------*/
-
-const drawFirstComments = (photoCommentsData, numberOfComments) => {
-  const similarCommentFragment = document.createDocumentFragment();
-  for (let i = 0; i < numberOfComments; i++) {
-    const commentElement = baseCommentTemplate.cloneNode(true);
-    commentElement.querySelector('.social__picture').src = photoCommentsData[i].avatar;
-    commentElement.querySelector('.social__picture').alt = photoCommentsData[i].name;
-    commentElement.querySelector('.social__text').textContent = photoCommentsData[i].message;
-
-    similarCommentFragment.append(commentElement);
-  }
-  commentsList.append(similarCommentFragment);
+const editCommentsCounter = (photoCommentsData) => {
+  const liveCollectionOnPage = commentsList.children;
+  commentsCountBlock.textContent = `${liveCollectionOnPage.length} из ${photoCommentsData.length} комментариев`;
 };
+
 
 
 const drawAnyComments = (photoCommentsData, numberOfComments) => {
@@ -91,6 +71,8 @@ const drawAnyComments = (photoCommentsData, numberOfComments) => {
     similarCommentFragment.append(commentElement);
   }
   commentsList.append(similarCommentFragment);
+
+  editCommentsCounter(photoCommentsData);
 };
 
 
@@ -100,12 +82,20 @@ const checkLastComments = (photoCommentsData) => { //Вернет длину с�
 };
 
 
+const hideLoadMoreCommentsButton = () => {
+  commentLodaerButton.classList.add('hidden');
+};
+
+
 const workButtonLoadMore = (photoCommentsData) => function () {
   const lastComments = checkLastComments(photoCommentsData);
   if (lastComments >= 5) {
     drawAnyComments(photoCommentsData, 5);
+  } else {
+    drawAnyComments(photoCommentsData, lastComments);
+    hideLoadMoreCommentsButton();
   }
-}
+};
 
 
 const drawBigPhotoData = (clickedElementData) => {
@@ -118,9 +108,10 @@ const drawBigPhotoData = (clickedElementData) => {
   let howMuchDrawFirstComments = 5;
   if (checkLastComments(clickedElementData.comments) < 5) {
     howMuchDrawFirstComments = checkLastComments(clickedElementData.comments);
+    hideLoadMoreCommentsButton();
   }
 
-  drawFirstComments(clickedElementData.comments, howMuchDrawFirstComments);
+  drawAnyComments(clickedElementData.comments, howMuchDrawFirstComments);
 };
 
 

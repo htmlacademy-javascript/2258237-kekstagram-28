@@ -30,6 +30,7 @@ const closeModalBigPicture = () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEscKeydown);
 
+  commentLodaerButton.classList.remove('hidden');
   commentLodaerButton.removeEventListener('click', commentsLoaderButtonClickHandler);
   commentsLoaderButtonClickHandler = null;
 };
