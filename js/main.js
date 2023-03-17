@@ -9,9 +9,15 @@ const miniPicturesContainer = document.querySelector('.pictures');
 const closeBigPictureButton = modalBigPicture.querySelector('.big-picture__cancel');
 
 
+const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
+import {workButtonLoadMore} from './big-photo-modal.js';
+
+
 const usersPhotosData = createPhotos();
 drawUsersPhotos(usersPhotosData);
 
+
+let commentsLoaderButtonClickHandler = null; //Для объявления функции доп комментов
 
 const findClickedPhotoObject = (clickedPhotoId, photosDataArray) => {
   return photosDataArray.find((currentElement) => {
@@ -23,6 +29,10 @@ const closeModalBigPicture = () => {
   modalBigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEscKeydown);
+
+  commentLodaerButton.classList.remove('hidden');
+  commentLodaerButton.removeEventListener('click', commentsLoaderButtonClickHandler);
+  commentsLoaderButtonClickHandler = null;
 };
 
 
@@ -33,6 +43,7 @@ const onModalEscKeydown = (evt) => {
   }
 };
 
+
 const openModalBigPicture = (evt) => {
   if (evt.target.matches('.picture__img')) {
     const clickedPictureId = Number(evt.target.getAttribute('data-id'));
@@ -42,9 +53,20 @@ const openModalBigPicture = (evt) => {
     modalBigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
 
+    commentsLoaderButtonClickHandler = workButtonLoadMore(clickedPictureData.comments);
+    commentLodaerButton.addEventListener('click', commentsLoaderButtonClickHandler);
+
     document.addEventListener('keydown', onModalEscKeydown);
   }
 };
 
+
 miniPicturesContainer.addEventListener('click', openModalBigPicture);
 closeBigPictureButton.addEventListener('click', closeModalBigPicture);
+
+
+
+
+
+
+
