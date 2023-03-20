@@ -65,8 +65,4 @@ miniPicturesContainer.addEventListener('click', openModalBigPicture);
 closeBigPictureButton.addEventListener('click', closeModalBigPicture);
 
 
-
-
-
-
-
+import './upload-image-modal.js';

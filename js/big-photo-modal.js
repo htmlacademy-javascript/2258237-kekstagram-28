@@ -59,7 +59,6 @@ const editCommentsCounter = (photoCommentsData) => {
 };
 
 
-
 const drawAnyComments = (photoCommentsData, numberOfComments) => {
   const similarCommentFragment = document.createDocumentFragment();
   for (let i = 0; i < numberOfComments; i++) {
