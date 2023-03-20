@@ -1,3 +1,5 @@
+const PART_OF_COMMENTS_TO_SHOW = 5;
+
 const modalBigPicture = document.querySelector('.big-picture');
 
 const bigPhotoElement = modalBigPicture.querySelector('img');
@@ -9,7 +11,6 @@ const commentsCountBlock = modalBigPicture.querySelector('.social__comment-count
 const commentsList = modalBigPicture.querySelector('.social__comments');
 
 const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
-
 
 
 // const getNumberComments = (commentsArray) => {
@@ -88,7 +89,7 @@ const hideLoadMoreCommentsButton = () => {
 
 const workButtonLoadMore = (photoCommentsData) => function () {
   const lastComments = checkLastComments(photoCommentsData);
-  if (lastComments >= 5) {
+  if (lastComments >= PART_OF_COMMENTS_TO_SHOW) {
     drawAnyComments(photoCommentsData, 5);
   } else {
     drawAnyComments(photoCommentsData, lastComments);
@@ -104,8 +105,8 @@ const drawBigPhotoData = (clickedElementData) => {
 
   clearAllPerviousCommentsOnPage();
 
-  let howMuchDrawFirstComments = 5;
-  if (checkLastComments(clickedElementData.comments) < 5) {
+  let howMuchDrawFirstComments = PART_OF_COMMENTS_TO_SHOW;
+  if (checkLastComments(clickedElementData.comments) < PART_OF_COMMENTS_TO_SHOW) {
     howMuchDrawFirstComments = checkLastComments(clickedElementData.comments);
     hideLoadMoreCommentsButton();
   }
