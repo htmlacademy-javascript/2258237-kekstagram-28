@@ -673,10 +673,21 @@ main {
  * Блок добавления хэштегов и комментария к изображению
  */
 
+.img-upload__field-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.pristine-error {
+  width: 100%;
+  color: orangered;
+  margin-bottom: 30px;
+}
+
 .text {
   margin: 0;
   padding: 0;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 
   text-align: center;
   border: none;

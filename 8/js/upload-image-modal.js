@@ -63,15 +63,6 @@ photoUploadForm.addEventListener('submit', (evt) => {
 });
 
 
-//Закрытие окна клавишей Esc
-const onModalEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeModal();
-  }
-};
-
-
 //Закрытие окна
 const closeModal = () => {
   modalUploadPhoto.classList.add('hidden');
@@ -80,6 +71,14 @@ const closeModal = () => {
 
   document.removeEventListener('keydown', onModalEscKeydown);
   buttonCloseModalUploadPhoto.removeEventListener('click', closeModal);
+};
+
+//Закрытие окна клавишей Esc
+function onModalEscKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeModal();
+  }
 };
 
 //Открытие окна
