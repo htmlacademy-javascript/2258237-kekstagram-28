@@ -98,3 +98,5 @@ inputComment.addEventListener('keydown', (evt) => {
 inputHastags.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
+
+import './scale-upload-image.js';
