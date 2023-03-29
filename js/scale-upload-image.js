@@ -30,6 +30,8 @@ const changePreviewImageScale = (value) => {
 
 const checkCurrentScaleValue = (value) => Number(value.slice(0, value.length - 1));
 
+checkBiggerScaleButton();
+
 biggerBtn.addEventListener('click', () => {
   let currentValue = checkCurrentScaleValue(scaleValue.value);
   currentValue += 25;
@@ -47,5 +49,28 @@ smallerBtn.addEventListener('click', () => {
   checkBiggerScaleButton();
   checkSmallerScaleButton();
 });
+
+
+const slideSwitcher = document.querySelector('.effect-level__slider');
+const sliderValue = document.querySelector('.effect-level__value');
+
+const radios = document.querySelectorAll('input[type="radio"]');
+
+noUiSlider.create(slideSwitcher, {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 0,
+  step: 1,
+  connect: 'lower',
+});
+
+slideSwitcher.noUiSlider.on('update', (...rest) => {
+  console.log(rest);
+  sliderValue.value = slideSwitcher.noUiSlider.get();
+  console.log(sliderValue.value);
+});
+
 
 
