@@ -1,6 +1,9 @@
 import {hasDuplicates} from './util.js';
 import {isEscapeKey} from './util.js';
 
+import './scale-upload-image.js';
+import './effects-upload-image.js';
+
 const MAX_HASHTAGS = 5;
 
 const body = document.querySelector('body');
@@ -58,7 +61,6 @@ pristine.addValidator(inputHastags, checkHashtagsRepeats, 'Хэш-тэги не 
 
 photoUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  // const isValid =
   pristine.validate();
 });
 
@@ -98,3 +100,4 @@ inputComment.addEventListener('keydown', (evt) => {
 inputHastags.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
+
