@@ -1,3 +1,7 @@
+const SCALE_STEP = 25;
+const MAX_SCALE = '100%';
+const MIN_SCALE = '25%';
+
 const modalUploadPhoto = document.querySelector('.img-upload__overlay');
 
 const imagePreview = modalUploadPhoto.querySelector('.img-upload__preview');
@@ -7,7 +11,7 @@ const scaleValue = modalUploadPhoto.querySelector('.scale__control--value');
 
 
 const checkBiggerScaleButton = () => {
-  if (scaleValue.value === '100%') {
+  if (scaleValue.value === MAX_SCALE) {
     biggerBtn.disabled = true;
   } else {
     biggerBtn.disabled = false;
@@ -15,7 +19,7 @@ const checkBiggerScaleButton = () => {
 };
 
 const checkSmallerScaleButton = () => {
-  if (scaleValue.value === '25%') {
+  if (scaleValue.value === MIN_SCALE) {
     smallerBtn.disabled = true;
   } else {
     smallerBtn.disabled = false;
@@ -33,7 +37,7 @@ checkBiggerScaleButton();
 
 biggerBtn.addEventListener('click', () => {
   let currentValue = checkCurrentScaleValue(scaleValue.value);
-  currentValue += 25;
+  currentValue += SCALE_STEP;
   scaleValue.value = `${currentValue}%`;
   changePreviewImageScale(currentValue);
   checkBiggerScaleButton();
@@ -42,7 +46,7 @@ biggerBtn.addEventListener('click', () => {
 
 smallerBtn.addEventListener('click', () => {
   let currentValue = checkCurrentScaleValue(scaleValue.value);
-  currentValue -= 25;
+  currentValue -= SCALE_STEP;
   scaleValue.value = `${currentValue}%`;
   changePreviewImageScale(currentValue);
   checkBiggerScaleButton();

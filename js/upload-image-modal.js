@@ -1,6 +1,9 @@
 import {hasDuplicates} from './util.js';
 import {isEscapeKey} from './util.js';
 
+import './scale-upload-image.js';
+import './effects-upload-image.js';
+
 const MAX_HASHTAGS = 5;
 
 const body = document.querySelector('body');
@@ -98,5 +101,3 @@ inputHastags.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
 
-import './scale-upload-image.js';
-import './effects-upload-image.js';

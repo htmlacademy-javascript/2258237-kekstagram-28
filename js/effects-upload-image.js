@@ -68,7 +68,7 @@ for (let i = 0; i < radioButtons.length; i++) {
           min: 0,
           max: 1,
         },
-        start: 0,
+        start: 1,
         step: 0.1,
       });
     }
@@ -79,7 +79,7 @@ for (let i = 0; i < radioButtons.length; i++) {
           min: 0,
           max: 100,
         },
-        start: 0,
+        start: 100,
         step: 1,
       });
     }
@@ -90,7 +90,7 @@ for (let i = 0; i < radioButtons.length; i++) {
           min: 0,
           max: 3,
         },
-        start: 0,
+        start: 3,
         step: 0.1,
       });
     }
@@ -101,7 +101,7 @@ for (let i = 0; i < radioButtons.length; i++) {
           min: 1,
           max: 3,
         },
-        start: 0,
+        start: 3,
         step: 0.1,
       });
     }
