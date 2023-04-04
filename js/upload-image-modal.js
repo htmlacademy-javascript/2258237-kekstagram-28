@@ -81,7 +81,7 @@ function onModalEscKeydown (evt) {
     evt.preventDefault();
     closeModal();
   }
-};
+}
 
 //Открытие окна
 inputUploadImage.addEventListener('change', () => {
