@@ -1,5 +1,6 @@
-import {hasDuplicates} from './util.js';
-import {isEscapeKey} from './util.js';
+import {hasDuplicates, isEscapeKey} from './util.js';
+import {resetFiltersOnPicture} from './effects-upload-image.js';
+import {resetScaleOnPicture} from './scale-upload-image.js';
 
 import './scale-upload-image.js';
 import './effects-upload-image.js';
@@ -15,6 +16,18 @@ const photoUploadForm = document.querySelector('.img-upload__form');
 const inputUploadImage = photoUploadForm.querySelector('#upload-file');
 const inputComment = photoUploadForm.querySelector('.text__description');
 const inputHastags = photoUploadForm.querySelector('.text__hashtags');
+
+const successSendFormMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorSendFormMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+
+
+//Функция сброса формы
+const resetFormData = () => {
+  inputUploadImage.value = null;
+  photoUploadForm.reset();
+  resetFiltersOnPicture();
+  resetScaleOnPicture();
+};
 
 
 //Проверка хештэгов
@@ -60,42 +73,23 @@ pristine.addValidator(inputHastags, checkValidHashTag, 'Неподходящий
 pristine.addValidator(inputHastags, checkHashtagsRepeats, 'Хэш-тэги не могут повторяться');
 
 
-const setUserFormSubmit = (onSuccess) => {
-  photoUploadForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      const formData = new FormData(evt.target);
-
-      fetch('https://28.javascript.pages.academy/kekstagram',{
-        method: 'POST',
-        body: formData,
-      },
-      ).then(() => {
-        // photoUploadForm.reset();
-      }).then(onSuccess);
-    }
-  });
-};
-
-export {setUserFormSubmit};
-
 //Закрытие окна
 const closeModalForm = () => {
   modalUploadPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
-  // inputUploadImage.value = null;
 
   document.removeEventListener('keydown', onModalEscKeydown);
-  buttonCloseModalUploadPhoto.removeEventListener('click', closeModalForm);
+  buttonCloseModalUploadPhoto.removeEventListener('click', () => {
+    resetFormData();
+    closeModalForm();
+  });
 };
-
-export {closeModalForm};
 
 //Закрытие окна клавишей Esc
 function onModalEscKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    resetFormData();
     closeModalForm();
   }
 }
@@ -105,7 +99,10 @@ inputUploadImage.addEventListener('change', () => {
   modalUploadPhoto.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  buttonCloseModalUploadPhoto.addEventListener('click', closeModalForm);
+  buttonCloseModalUploadPhoto.removeEventListener('click', () => {
+    resetFormData();
+    closeModalForm();
+  });
   document.addEventListener('keydown', onModalEscKeydown);
 });
 
@@ -118,9 +115,10 @@ inputHastags.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
 
-/* ------------------------------------------ */
 
-const successSendFormMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const closeSendStatusModal = (statusMessage) => {
+  document.querySelector(`.${statusMessage}`).remove();
+};
 
 const showSuccessSendFormMessage = () => {
   const similarListFragment = document.createDocumentFragment();
@@ -131,14 +129,24 @@ const showSuccessSendFormMessage = () => {
 
   const successSendFormMessageCloseButton = document.querySelector('.success__button');
   successSendFormMessageCloseButton.addEventListener('click', () => {
-    document.querySelector('.success').remove();
+    closeSendStatusModal('success');
+  });
+
+  document.addEventListener('click', (e) => {
+    const modalSuccess = document.querySelector('.success');
+    const click = e.composedPath().includes(modalSuccess);
+    if (click) {
+      closeSendStatusModal('success');
+    }
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      closeSendStatusModal('success');
+    }
   });
 };
-
-// showSuccessSendFormMessage();
-
-
-const errorSendFormMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const showErrorSendFormMessage = () => {
   const similarListFragment = document.createDocumentFragment();
@@ -151,6 +159,51 @@ const showErrorSendFormMessage = () => {
   errorSendFormMessageCloseButton.addEventListener('click', () => {
     document.querySelector('.error').remove();
   });
+
+  document.addEventListener('click', (e) => {
+    const modalSuccess = document.querySelector('.success');
+    const click = e.composedPath().includes(modalSuccess);
+    if (click) {
+      closeSendStatusModal('error');
+    }
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      closeSendStatusModal('error');
+    }
+  });
 };
 
-// showErrorSendFormMessage();
+
+const setUserFormSubmit = () => {
+  photoUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch('https://28.javascript.pages.academy/kekstagram',{
+        method: 'POST',
+        body: formData,
+      },
+      ).then(() => {
+        inputUploadImage.value = null;
+        photoUploadForm.reset();
+        resetFiltersOnPicture();
+        resetScaleOnPicture();
+      }).then(() => {
+        closeModalForm();
+      }).then(() => {
+        showSuccessSendFormMessage();
+      }).catch(() => {
+        inputUploadImage.value = null;
+        closeModalForm();
+        showErrorSendFormMessage();
+      });
+    }
+  });
+};
+
+export {setUserFormSubmit};

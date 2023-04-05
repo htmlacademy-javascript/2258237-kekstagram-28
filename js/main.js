@@ -74,11 +74,6 @@ function onModalEscKeydown (evt) {
   }
 }
 
-
-// import './upload-image-modal.js';
-
-
 import { setUserFormSubmit } from './upload-image-modal.js';
-import { closeModalForm } from './upload-image-modal.js';
 
-setUserFormSubmit(closeModalForm);
+setUserFormSubmit();

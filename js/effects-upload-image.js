@@ -20,6 +20,7 @@ noUiSlider.create(slideSwitcher, {
 
 sliderBlock.classList.add('visually-hidden');
 
+
 slideSwitcher.noUiSlider.on('update', () => {
   sliderValue.value = slideSwitcher.noUiSlider.get();
 
@@ -107,3 +108,13 @@ for (let i = 0; i < radioButtons.length; i++) {
     }
   });
 }
+
+//Сброс наложения фильтра
+const resetFiltersOnPicture = () => {
+  imagePreview.removeAttribute('class');
+  imagePreview.removeAttribute('style');
+  imagePreview.classList.add('img-upload__preview');
+  sliderBlock.classList.add('visually-hidden');
+};
+
+export {resetFiltersOnPicture};
