@@ -161,7 +161,7 @@ const showErrorSendFormMessage = () => {
   });
 
   document.addEventListener('click', (e) => {
-    const modalSuccess = document.querySelector('.success');
+    const modalSuccess = document.querySelector('.error');
     const click = e.composedPath().includes(modalSuccess);
     if (click) {
       closeSendStatusModal('error');
