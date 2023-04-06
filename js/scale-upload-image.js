@@ -53,4 +53,11 @@ smallerBtn.addEventListener('click', () => {
   checkSmallerScaleButton();
 });
 
+//Сброс наложения масштаба
+const resetScaleOnPicture = () => {
+  scaleValue.value = MAX_SCALE;
+  checkBiggerScaleButton();
+  checkSmallerScaleButton();
+};
 
+export {resetScaleOnPicture};

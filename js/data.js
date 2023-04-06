@@ -16,7 +16,7 @@ function createIdGenerator (min, max) {
   return function () {
     let currentValue = getRandomNumber(min, max);
     if (previousValues.length > (max - min + 1)) {
-      console.error('Исчерпан лимит уникальных идентификаторов');
+      // console.error('Исчерпан лимит уникальных идентификаторов');
       return null;
     }
     while (previousValues.includes(currentValue)) {
@@ -40,26 +40,20 @@ const generateIdPhoto = createIdGenerator(1, SIMILAR_PHOTOS_COUNT);
 const generateIdComment = createIdGenerator(1, SIMILAR_COMMENTARIES_ID);
 
 
-const createComment = () => {
+const createComment = () => ({
+  id: generateIdComment(),
+  avatar: `img/avatar-${getRandomNumber(1, SIMILAR_AVATARS_COUNT)}.svg`,
+  message: messageExamples[getRandomNumber(0, messageExamples.length - 1)],
+  name: nameExamples[getRandomNumber(0, nameExamples.length - 1)],
+});
 
-  return {
-    id: generateIdComment(),
-    avatar: 'img/avatar-' + getRandomNumber(1, SIMILAR_AVATARS_COUNT) + '.svg',
-    message: messageExamples[getRandomNumber(0, messageExamples.length - 1)],
-    name: nameExamples[getRandomNumber(0, nameExamples.length - 1)],
-  };
-}
-
-const createPhotoDescription = () => {
-
-  return {
-    id: generateIdNumber(),
-    url: `photos/${generateIdPhoto()}.jpg`,
-    description: descriptionExamples[getRandomNumber(0, descriptionExamples.length - 1)],
-    likes: getRandomNumber(MIN_LIKES_ON_PHOTO, MAX_LIKES_ON_PHOTO),
-    comments: Array.from({length: getRandomNumber(1, MAX_COMMENTARIES_ON_PHOTO)}, createComment),
-  };
-}
+const createPhotoDescription = () => ({
+  id: generateIdNumber(),
+  url: `photos/${generateIdPhoto()}.jpg`,
+  description: descriptionExamples[getRandomNumber(0, descriptionExamples.length - 1)],
+  likes: getRandomNumber(MIN_LIKES_ON_PHOTO, MAX_LIKES_ON_PHOTO),
+  comments: Array.from({length: getRandomNumber(1, MAX_COMMENTARIES_ON_PHOTO)}, createComment),
+});
 
 const createPhotos = () => Array.from({length: SIMILAR_PHOTOS_COUNT}, createPhotoDescription);
 

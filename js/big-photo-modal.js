@@ -13,33 +13,6 @@ const commentsList = modalBigPicture.querySelector('.social__comments');
 const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
 
 
-// const getNumberComments = (commentsArray) => {
-//   let commentsCountName = 'комментариев';
-
-//   switch (String(commentsArray.length).at(-1)) {
-//     case '1':
-//       commentsCountName = 'комментарий';
-//       break;
-//     case '2':
-//     case '3':
-//     case '4':
-//       commentsCountName = 'комментария';
-//       break;
-//     default:
-//       commentsCountName = 'комментариев';
-//       break;
-//   }
-
-//   if (commentsArray.length < 6) {
-//     commentsCountBlock.textContent = `${commentsArray.length} ${commentsCountName}`;
-//     commentsLoadBlock.classList.add('hidden');
-//   } else {
-//     commentsCountBlock.textContent = `5 из ${commentsArray.length} ${commentsCountName}`;
-//     commentsLoadBlock.classList.remove('hidden');
-//   }
-// };
-
-
 const clearAllPerviousCommentsOnPage = () => {
   const commentsPerviousList = commentsList.querySelectorAll('.social__comment');
   for (let i = 0; i < commentsPerviousList.length; i++) {
@@ -61,8 +34,9 @@ const editCommentsCounter = (photoCommentsData) => {
 
 
 const drawAnyComments = (photoCommentsData, numberOfComments) => {
+  const commentsOnPage = Number(commentsList.children.length);
   const similarCommentFragment = document.createDocumentFragment();
-  for (let i = 0; i < numberOfComments; i++) {
+  for (let i = commentsOnPage; i < numberOfComments + commentsOnPage; i++) {
     const commentElement = baseCommentTemplate.cloneNode(true);
     commentElement.querySelector('.social__picture').src = photoCommentsData[i].avatar;
     commentElement.querySelector('.social__picture').alt = photoCommentsData[i].name;
@@ -89,8 +63,9 @@ const hideLoadMoreCommentsButton = () => {
 
 const workButtonLoadMore = (photoCommentsData) => function () {
   const lastComments = checkLastComments(photoCommentsData);
-  if (lastComments >= PART_OF_COMMENTS_TO_SHOW) {
-    drawAnyComments(photoCommentsData, 5);
+  if (lastComments > PART_OF_COMMENTS_TO_SHOW) {
+    drawAnyComments(photoCommentsData, PART_OF_COMMENTS_TO_SHOW);
+
   } else {
     drawAnyComments(photoCommentsData, lastComments);
     hideLoadMoreCommentsButton();
