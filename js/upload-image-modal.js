@@ -99,7 +99,7 @@ inputUploadImage.addEventListener('change', () => {
   modalUploadPhoto.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  buttonCloseModalUploadPhoto.removeEventListener('click', () => {
+  buttonCloseModalUploadPhoto.addEventListener('click', () => {
     resetFormData();
     closeModalForm();
   });

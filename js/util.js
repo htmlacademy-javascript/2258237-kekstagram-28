@@ -67,6 +67,7 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
+export {debounce};
 
 // Пропуск кадров
 
@@ -90,3 +91,5 @@ function throttle (callback, delayBetweenFrames) {
     }
   };
 }
+
+export {throttle};
