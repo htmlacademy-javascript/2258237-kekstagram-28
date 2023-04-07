@@ -99,7 +99,7 @@ inputUploadImage.addEventListener('change', () => {
   modalUploadPhoto.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  buttonCloseModalUploadPhoto.removeEventListener('click', () => {
+  buttonCloseModalUploadPhoto.addEventListener('click', () => {
     resetFormData();
     closeModalForm();
   });
@@ -161,7 +161,7 @@ const showErrorSendFormMessage = () => {
   });
 
   document.addEventListener('click', (e) => {
-    const modalSuccess = document.querySelector('.success');
+    const modalSuccess = document.querySelector('.error');
     const click = e.composedPath().includes(modalSuccess);
     if (click) {
       closeSendStatusModal('error');
