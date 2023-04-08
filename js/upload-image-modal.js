@@ -2,9 +2,6 @@ import {hasDuplicates, isEscapeKey} from './util.js';
 import {resetFiltersOnPicture} from './effects-upload-image.js';
 import {resetScaleOnPicture} from './scale-upload-image.js';
 
-import './scale-upload-image.js';
-import './effects-upload-image.js';
-
 const MAX_HASHTAGS = 5;
 const FILE_TYPES = ['png', 'jpeg', 'jpg'];
 
@@ -23,7 +20,6 @@ const successSendFormMessageTemplate = document.querySelector('#success').conten
 const errorSendFormMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
 
-//Функция сброса формы
 const resetFormData = () => {
   inputUploadImage.value = null;
   photoUploadForm.reset();
@@ -87,7 +83,6 @@ const closeModalForm = () => {
   });
 };
 
-//Закрытие окна клавишей Esc
 function onModalEscKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -118,6 +113,7 @@ inputHastags.addEventListener('keydown', (evt) => {
 });
 
 
+//Показ сообщения о статусе отправки формы
 const closeSendStatusModal = (statusMessage) => {
   document.querySelector(`.${statusMessage}`).remove();
 };
@@ -208,7 +204,6 @@ const setUserFormSubmit = () => {
   });
 };
 
-export {setUserFormSubmit};
 
 inputUploadImage.addEventListener('change', () => {
   const file = inputUploadImage.files[0];
@@ -220,3 +215,5 @@ inputUploadImage.addEventListener('change', () => {
     previewImage.src = URL.createObjectURL(file);
   }
 });
+
+export {setUserFormSubmit};
