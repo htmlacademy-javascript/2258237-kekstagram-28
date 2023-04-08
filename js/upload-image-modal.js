@@ -6,6 +6,7 @@ import './scale-upload-image.js';
 import './effects-upload-image.js';
 
 const MAX_HASHTAGS = 5;
+const FILE_TYPES = ['png', 'jpeg', 'jpg'];
 
 const body = document.querySelector('body');
 
@@ -13,6 +14,7 @@ const modalUploadPhoto = document.querySelector('.img-upload__overlay');
 const buttonCloseModalUploadPhoto = modalUploadPhoto.querySelector('.img-upload__cancel');
 
 const photoUploadForm = document.querySelector('.img-upload__form');
+const previewImage = photoUploadForm.querySelector('.img-upload__preview').querySelector('img');
 const inputUploadImage = photoUploadForm.querySelector('#upload-file');
 const inputComment = photoUploadForm.querySelector('.text__description');
 const inputHastags = photoUploadForm.querySelector('.text__hashtags');
@@ -207,3 +209,14 @@ const setUserFormSubmit = () => {
 };
 
 export {setUserFormSubmit};
+
+inputUploadImage.addEventListener('change', () => {
+  const file = inputUploadImage.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    previewImage.src = URL.createObjectURL(file);
+  }
+});
