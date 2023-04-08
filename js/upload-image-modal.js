@@ -15,6 +15,7 @@ const previewImage = photoUploadForm.querySelector('.img-upload__preview').query
 const inputUploadImage = photoUploadForm.querySelector('#upload-file');
 const inputComment = photoUploadForm.querySelector('.text__description');
 const inputHastags = photoUploadForm.querySelector('.text__hashtags');
+const submitButton = photoUploadForm.querySelector('.img-upload__submit')
 
 const successSendFormMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorSendFormMessageTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -182,6 +183,8 @@ const setUserFormSubmit = () => {
     if (isValid) {
       const formData = new FormData(evt.target);
 
+      submitButton.disabled = true;
+
       fetch('https://28.javascript.pages.academy/kekstagram',{
         method: 'POST',
         body: formData,
@@ -194,10 +197,12 @@ const setUserFormSubmit = () => {
       }).then(() => {
         closeModalForm();
       }).then(() => {
+        submitButton.disabled = false;
         showSuccessSendFormMessage();
       }).catch(() => {
         inputUploadImage.value = null;
         closeModalForm();
+        submitButton.disabled = false;
         showErrorSendFormMessage();
       });
     }
