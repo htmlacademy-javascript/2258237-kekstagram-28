@@ -203,8 +203,6 @@ const setUserFormSubmit = () => {
         submitButton.disabled = false;
         showSuccessSendFormMessage();
       }).catch(() => {
-        inputUploadImage.value = null;
-        closeModalForm();
         submitButton.disabled = false;
         showErrorSendFormMessage();
       });
