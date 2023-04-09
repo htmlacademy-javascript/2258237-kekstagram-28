@@ -15,7 +15,7 @@ const previewImage = photoUploadForm.querySelector('.img-upload__preview').query
 const inputUploadImage = photoUploadForm.querySelector('#upload-file');
 const inputComment = photoUploadForm.querySelector('.text__description');
 const inputHastags = photoUploadForm.querySelector('.text__hashtags');
-const submitButton = photoUploadForm.querySelector('.img-upload__submit')
+const submitButton = photoUploadForm.querySelector('.img-upload__submit');
 
 const successSendFormMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorSendFormMessageTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -114,16 +114,34 @@ inputHastags.addEventListener('keydown', (evt) => {
 });
 
 
-//Показ сообщения о статусе отправки формы
+//Показ и скрытие сообщения о статусе отправки формы
 const closeSendStatusModal = (statusMessage) => {
+  if (statusMessage === 'success') {
+    document.removeEventListener('keydown', onSuccessMsgEscKeydown);
+  } else {
+    document.removeEventListener('keydown', onErrorMsgEscKeydown);
+  }
   document.querySelector(`.${statusMessage}`).remove();
 };
+
+function onSuccessMsgEscKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeSendStatusModal('success');
+  }
+}
+
+function onErrorMsgEscKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeSendStatusModal('error');
+  }
+}
 
 const showSuccessSendFormMessage = () => {
   const similarListFragment = document.createDocumentFragment();
   const successSendFormMessage = successSendFormMessageTemplate.cloneNode(true);
   similarListFragment.append(successSendFormMessage);
-
   body.append(similarListFragment);
 
   const successSendFormMessageCloseButton = document.querySelector('.success__button');
@@ -131,48 +149,33 @@ const showSuccessSendFormMessage = () => {
     closeSendStatusModal('success');
   });
 
-  document.addEventListener('click', (e) => {
-    const modalSuccess = document.querySelector('.success');
-    const click = e.composedPath().includes(modalSuccess);
-    if (click) {
+  successSendFormMessage.addEventListener('click', (evt) => {
+    if (evt.target !== successSendFormMessage.children[0] && evt.target !== successSendFormMessage.children[0].children[0] && evt.target !== successSendFormMessage.children[0].children[1]) {
       closeSendStatusModal('success');
     }
   });
 
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closeSendStatusModal('success');
-    }
-  });
+  document.addEventListener('keydown', onSuccessMsgEscKeydown);
 };
 
 const showErrorSendFormMessage = () => {
   const similarListFragment = document.createDocumentFragment();
   const errorSendFormMessage = errorSendFormMessageTemplate.cloneNode(true);
   similarListFragment.append(errorSendFormMessage);
-
   body.append(similarListFragment);
 
   const errorSendFormMessageCloseButton = document.querySelector('.error__button');
   errorSendFormMessageCloseButton.addEventListener('click', () => {
-    document.querySelector('.error').remove();
+    closeSendStatusModal('error');
   });
 
-  document.addEventListener('click', (e) => {
-    const modalSuccess = document.querySelector('.error');
-    const click = e.composedPath().includes(modalSuccess);
-    if (click) {
+  errorSendFormMessage.addEventListener('click', (evt) => {
+    if (evt.target !== errorSendFormMessage.children[0] && evt.target !== errorSendFormMessage.children[0].children[0] && evt.target !== errorSendFormMessage.children[0].children[1]) {
       closeSendStatusModal('error');
     }
   });
 
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closeSendStatusModal('error');
-    }
-  });
+  document.addEventListener('keydown', onErrorMsgEscKeydown);
 };
 
 
