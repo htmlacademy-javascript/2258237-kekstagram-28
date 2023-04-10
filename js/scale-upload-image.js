@@ -4,7 +4,7 @@ const MIN_SCALE = '25%';
 
 const modalUploadPhoto = document.querySelector('.img-upload__overlay');
 
-const imagePreview = modalUploadPhoto.querySelector('.img-upload__preview');
+const imagePreview = modalUploadPhoto.querySelector('.img-upload__preview').querySelector('img');
 const smallerBtn = modalUploadPhoto.querySelector('.scale__control--smaller');
 const biggerBtn = modalUploadPhoto.querySelector('.scale__control--bigger');
 const scaleValue = modalUploadPhoto.querySelector('.scale__control--value');
@@ -55,6 +55,7 @@ smallerBtn.addEventListener('click', () => {
 
 //Сброс наложения масштаба
 const resetScaleOnPicture = () => {
+  imagePreview.removeAttribute('style');
   scaleValue.value = MAX_SCALE;
   checkBiggerScaleButton();
   checkSmallerScaleButton();

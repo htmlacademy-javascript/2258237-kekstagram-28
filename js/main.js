@@ -17,6 +17,8 @@ const filterBlock = document.querySelector('.img-filters');
 
 let commentsLoaderButtonClickHandler = null; //Для объявления функции доп комментов
 
+const findClickedPhotoObject = (clickedPhotoId, photosDataArray) => photosDataArray.find((currentElement) => currentElement.id === clickedPhotoId);
+
 const renderBasicPhotos = () => {
   fetch('https://28.javascript.pages.academy/kekstagram/data')
     .then((response) => {
@@ -30,7 +32,7 @@ const renderBasicPhotos = () => {
       drawUsersPhotos(datas, datas.length);
 
       const openModalBigPicture = (evt) => {
-        if (evt.target.matches('.picture__img')) {
+        if (evt.target.matches('.picture__img') || evt.target.matches('.picture__info') || evt.target.matches('.picture__comments') || evt.target.matches('.picture__likes')) {
           const clickedPictureId = Number(evt.target.getAttribute('data-id'));
           const clickedPictureData = findClickedPhotoObject(clickedPictureId, datas);
           drawBigPhotoData(clickedPictureData);
@@ -56,12 +58,6 @@ const renderBasicPhotos = () => {
     });
 };
 
-export {renderBasicPhotos};
-
-function findClickedPhotoObject (clickedPhotoId, photosDataArray) {
-  return photosDataArray.find((currentElement) => currentElement.id === clickedPhotoId);
-}
-
 function closeModalBigPicture () {
   modalBigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -83,3 +79,5 @@ function onModalEscKeydown (evt) {
 
 setUserFormSubmit();
 renderPhotos();
+
+export {renderBasicPhotos};

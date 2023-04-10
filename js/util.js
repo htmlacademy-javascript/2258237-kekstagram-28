@@ -8,9 +8,7 @@ export {getRandomNumber};
 
 
 // Проверяет повторяются ли элементы в массиве
-function hasDuplicates(array) {
-  return array.some((x) => array.indexOf(x) !== array.lastIndexOf(x));
-}
+const hasDuplicates = (array) => array.some((x) => array.indexOf(x.toLowerCase()) !== array.lastIndexOf(x.toLowerCase()));
 export {hasDuplicates};
 
 

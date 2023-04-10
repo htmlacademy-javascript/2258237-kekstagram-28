@@ -1,6 +1,6 @@
 const modalUploadPhoto = document.querySelector('.img-upload__overlay');
 
-const imagePreview = modalUploadPhoto.querySelector('.img-upload__preview');
+const imagePreview = modalUploadPhoto.querySelector('.img-upload__preview').querySelector('img');
 
 const sliderBlock = modalUploadPhoto.querySelector('.img-upload__effect-level');
 const slideSwitcher = sliderBlock.querySelector('.effect-level__slider');
