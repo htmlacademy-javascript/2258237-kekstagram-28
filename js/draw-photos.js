@@ -2,7 +2,6 @@ const usersPhotoGallery = document.querySelector('.pictures');
 const usersPhotoTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const drawUsersPhotos = (photosData, photosCount) => {
-
   const similarListFragment = document.createDocumentFragment();
 
   for (let i = 0; i < photosCount; i++) {

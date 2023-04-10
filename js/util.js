@@ -4,7 +4,6 @@ const getRandomNumber = (min, max) => {
 
   return Math.floor(result);
 };
-
 export {getRandomNumber};
 
 
@@ -12,13 +11,11 @@ export {getRandomNumber};
 function hasDuplicates(array) {
   return array.some((x) => array.indexOf(x) !== array.lastIndexOf(x));
 }
-
 export {hasDuplicates};
 
 
 // Проверяет нажата ли была клавиша Esc
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
 export {isEscapeKey};
 
 
@@ -43,53 +40,62 @@ const showAlertMessage = (message) => {
     alertContainer.remove();
   }, 5000);
 };
-
 export {showAlertMessage};
 
 
 // Устранение дребезга
-
 function debounce (callback, timeoutDelay = 500) {
-  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
-  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
 
   return (...rest) => {
-    // Перед каждым новым вызовом удаляем предыдущий таймаут,
-    // чтобы они не накапливались
     clearTimeout(timeoutId);
-
-    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-
-    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
-    // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
 }
-
 export {debounce};
 
-// Пропуск кадров
 
-function throttle (callback, delayBetweenFrames) {
-  // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
-  // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
-  let lastTime = 0;
-
-  return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
-    const now = new Date();
-
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
+// Сортировка массива объектов по длине комментариев
+const sortArrayByCommentsLength = (array) => {
+  array.sort((a, b) => {
+    if (a.comments.length > b.comments.length) {
+      return -1;
     }
-  };
-}
+    if (a.comments.length < b.comments.length) {
+      return 1;
+    }
+    return 0;
+  });
+  return array;
+};
+export {sortArrayByCommentsLength};
 
-export {throttle};
+
+// Сортировка массива объектов в случайном порядке
+const sortArrayByRandom = (array) => {
+  let j = 0;
+  let temp = 0;
+  for (let i = 0; i < array.length; i++) {
+    j = getRandomNumber(0, array.length - 1);
+    temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
+  }
+  return array;
+};
+export {sortArrayByRandom};
+
+
+//Функция, которая принимает строку и возвращает цифры из нее в виде целого положительного числа
+const getNumbers = (string) => {
+  string = String(string);
+  string = string.replaceAll(' ', '');
+
+  let exitNumber = '';
+  for (let i = 0; i < string.length; i++) {
+    exitNumber += (string[i] <= 9) ? string[i] : '';
+  }
+
+  return (exitNumber === '') ? NaN : Number(exitNumber);
+};
+export {getNumbers};
