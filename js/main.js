@@ -15,7 +15,37 @@ const commentLodaerButton = modalBigPicture.querySelector('.comments-loader');
 const filterBlock = document.querySelector('.img-filters');
 
 
-let commentsLoaderButtonClickHandler = null; //Для объявления функции доп комментов
+let onCommentsLoaderButtonClick = null; //Для объявления функции доп комментов
+
+const findClickedPhotoObject = (clickedPhotoId, photosDataArray) => photosDataArray.find((currentElement) => currentElement.id === clickedPhotoId);
+
+
+const createModalWindow = (data) =>
+  (evt) => {
+    if (evt.target.matches('.picture__img') || evt.target.matches('.picture__info') || evt.target.matches('.picture__comments') || evt.target.matches('.picture__likes')) {
+      const clickedPictureId = Number(evt.target.getAttribute('data-id'));
+      const clickedPictureData = findClickedPhotoObject(clickedPictureId, data);
+      drawBigPhotoData(clickedPictureData);
+
+      modalBigPicture.classList.remove('hidden');
+      body.classList.add('modal-open');
+
+      onCommentsLoaderButtonClick = workButtonLoadMore(clickedPictureData.comments);
+      commentLodaerButton.addEventListener('click', onCommentsLoaderButtonClick);
+      document.addEventListener('keydown', onModalEscKeydown);
+    }
+  };
+
+
+const drawPhotos = (data) => {
+  drawUsersPhotos(data, data.length);
+  const openModalBigPicture = createModalWindow(data);
+
+  miniPicturesContainer.addEventListener('click', openModalBigPicture);
+  closeBigPictureButton.addEventListener('click', closeModalBigPicture);
+  filterBlock.classList.remove('img-filters--inactive');
+};
+
 
 const renderBasicPhotos = () => {
   fetch('https://28.javascript.pages.academy/kekstagram/data')
@@ -26,41 +56,13 @@ const renderBasicPhotos = () => {
       throw new Error(`${response.status} — ${response.statusText}`);
     })
     .then((response) => response.json())
-    .then((datas) => {
-      drawUsersPhotos(datas, datas.length);
-
-      const openModalBigPicture = (evt) => {
-        if (evt.target.matches('.picture__img')) {
-          const clickedPictureId = Number(evt.target.getAttribute('data-id'));
-          const clickedPictureData = findClickedPhotoObject(clickedPictureId, datas);
-          drawBigPhotoData(clickedPictureData);
-
-          modalBigPicture.classList.remove('hidden');
-          body.classList.add('modal-open');
-
-          commentsLoaderButtonClickHandler = workButtonLoadMore(clickedPictureData.comments);
-          commentLodaerButton.addEventListener('click', commentsLoaderButtonClickHandler);
-
-          document.addEventListener('keydown', onModalEscKeydown);
-        }
-      };
-
-      miniPicturesContainer.addEventListener('click', openModalBigPicture);
-      closeBigPictureButton.addEventListener('click', closeModalBigPicture);
-    })
-    .then(() => {
-      filterBlock.classList.remove('img-filters--inactive');
+    .then((data) => {
+      drawPhotos(data);
     })
     .catch(() => {
       showAlertMessage('Не удалось загрузить данные с сервера. Попробуйте ещё раз');
     });
 };
-
-export {renderBasicPhotos};
-
-function findClickedPhotoObject (clickedPhotoId, photosDataArray) {
-  return photosDataArray.find((currentElement) => currentElement.id === clickedPhotoId);
-}
 
 function closeModalBigPicture () {
   modalBigPicture.classList.add('hidden');
@@ -68,8 +70,8 @@ function closeModalBigPicture () {
   document.removeEventListener('keydown', onModalEscKeydown);
 
   commentLodaerButton.classList.remove('hidden');
-  commentLodaerButton.removeEventListener('click', commentsLoaderButtonClickHandler);
-  commentsLoaderButtonClickHandler = null;
+  commentLodaerButton.removeEventListener('click', onCommentsLoaderButtonClick);
+  onCommentsLoaderButtonClick = null;
 }
 
 
@@ -83,3 +85,5 @@ function onModalEscKeydown (evt) {
 
 setUserFormSubmit();
 renderPhotos();
+
+export {renderBasicPhotos};

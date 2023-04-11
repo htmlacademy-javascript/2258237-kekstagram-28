@@ -1,4 +1,4 @@
-import { renderBasicPhotos } from './main.js';
+import {renderBasicPhotos} from './main.js';
 import {getBasicPhotos, getRandomPhotos, getSortedPhotos} from './filtered-photos.js';
 import {debounce} from './util.js';
 

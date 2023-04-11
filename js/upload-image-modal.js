@@ -55,8 +55,8 @@ const checkHashtagTotalNumber = (allHashtagsByString) => {
 };
 
 const checkHashtagsRepeats = (allHashtagsByString) => {
-  const allHashtags = splitHastags(allHashtagsByString);
-  return !hasDuplicates(allHashtags);
+  const allLowerHashtags = splitHastags(allHashtagsByString).map((x) => x.toLowerCase());
+  return !hasDuplicates(allLowerHashtags);
 };
 
 
@@ -191,21 +191,27 @@ const setUserFormSubmit = () => {
       fetch('https://28.javascript.pages.academy/kekstagram',{
         method: 'POST',
         body: formData,
-      },
-      ).then(() => {
-        inputUploadImage.value = null;
-        photoUploadForm.reset();
-        resetFiltersOnPicture();
-        resetScaleOnPicture();
-      }).then(() => {
-        closeModalForm();
-      }).then(() => {
-        submitButton.disabled = false;
-        showSuccessSendFormMessage();
-      }).catch(() => {
-        submitButton.disabled = false;
-        showErrorSendFormMessage();
-      });
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response;
+          }
+          throw new Error(`${response.status} — ${response.statusText}`);
+        })
+        .then(() => {
+          inputUploadImage.value = null;
+          photoUploadForm.reset();
+          resetFiltersOnPicture();
+          resetScaleOnPicture();
+        }).then(() => {
+          closeModalForm();
+        }).then(() => {
+          submitButton.disabled = false;
+          showSuccessSendFormMessage();
+        }).catch(() => {
+          submitButton.disabled = false;
+          showErrorSendFormMessage();
+        });
     }
   });
 };
