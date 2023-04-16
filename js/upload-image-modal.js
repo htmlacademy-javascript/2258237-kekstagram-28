@@ -120,6 +120,7 @@ const closeSendStatusModal = (statusMessage) => {
     document.removeEventListener('keydown', onSuccessMsgEscKeydown);
   } else {
     document.removeEventListener('keydown', onErrorMsgEscKeydown);
+    document.addEventListener('keydown', onModalEscKeydown);
   }
   document.querySelector(`.${statusMessage}`).remove();
 };
@@ -163,6 +164,7 @@ const showErrorSendFormMessage = () => {
   const errorSendFormMessage = errorSendFormMessageTemplate.cloneNode(true);
   similarListFragment.append(errorSendFormMessage);
   body.append(similarListFragment);
+  document.removeEventListener('keydown', onModalEscKeydown);
 
   const errorSendFormMessageCloseButton = document.querySelector('.error__button');
   errorSendFormMessageCloseButton.addEventListener('click', () => {
